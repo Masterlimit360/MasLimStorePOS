@@ -35,21 +35,21 @@ except ImportError:
 
 # ─── Color Palette ─────────────────────────────────────────────────────────────
 C = {
-    "bg":         "#0D0F14",   # Deep dark background
-    "surface":    "#161A22",   # Card / panel surface
-    "surface2":   "#1E2330",   # Lighter surface
-    "border":     "#2A3040",   # Subtle border
-    "accent":     "#00D4AA",   # Teal/mint accent
-    "accent2":    "#7C3AED",   # Purple accent
-    "accent3":    "#F59E0B",   # Amber / gold
+    "bg":         "#F9FAFB",   # Very light grey background
+    "surface":    "#FFFFFF",   # White Card / panel surface
+    "surface2":   "#F3F4F6",   # Lighter grey surface
+    "border":     "#E5E7EB",   # Subtle border
+    "accent":     "#EAB308",   # Yellow accent (Main)
+    "accent2":    "#9CA3AF",   # Grey accent
+    "accent3":    "#FBBF24",   # Amber / gold
     "danger":     "#EF4444",   # Red
     "success":    "#10B981",   # Green
-    "warning":    "#F59E0B",   # Yellow
-    "text":       "#F1F5F9",   # Primary text
-    "text2":      "#94A3B8",   # Secondary text
-    "text3":      "#475569",   # Muted text
+    "warning":    "#F59E0B",   # Darker Yellow
+    "text":       "#111827",   # Primary text (Dark Grey)
+    "text2":      "#4B5563",   # Secondary text (Medium Grey)
+    "text3":      "#9CA3AF",   # Muted text
     "white":      "#FFFFFF",
-    "hover":      "#0F172A",
+    "hover":      "#FEF08A",   # Lighter hover
 }
 
 FONT_TITLE   = ("Segoe UI", 22, "bold")
@@ -544,7 +544,7 @@ class POSController:
 # ═══════════════════════════════════════════════════════════════════════════════
 def styled_btn(parent, text, command, bg=None, fg=None, font=None, **kw):
     bg   = bg   or C["accent"]
-    fg   = fg   or C["bg"]
+    fg   = fg   or C["white"]
     font = font or FONT_SUB
     btn = tk.Button(parent, text=text, command=command,
                     bg=bg, fg=fg, font=font,
@@ -611,7 +611,7 @@ class BarcodeScannerWindow(tk.Toplevel):
         self.manual_var = tk.StringVar()
         me = tk.Entry(mf, textvariable=self.manual_var, font=FONT_BODY,
                       bg=C["surface2"], fg=C["text"], insertbackground=C["text"],
-                      relief=tk.FLAT, width=20)
+                      relief=tk.FLAT, bd=6, width=20)
         me.pack(side=tk.LEFT, padx=4)
         me.bind("<Return>", self._manual_submit)
         styled_btn(mf, "Use", self._manual_submit, padx=8, pady=4).pack(side=tk.LEFT)
@@ -733,7 +733,7 @@ class MobileMoneyDialog(tk.Toplevel):
         self.phone_var = tk.StringVar(value="0244")
         pe = tk.Entry(pf, textvariable=self.phone_var, font=("Segoe UI", 14),
                       bg=C["surface2"], fg=C["text"], insertbackground=C["text"],
-                      relief=tk.FLAT, width=22)
+                      relief=tk.FLAT, bd=6, width=22)
         pe.pack(padx=12, pady=(0, 10), ipady=6)
 
         # Email entry
@@ -743,7 +743,7 @@ class MobileMoneyDialog(tk.Toplevel):
         self.email_var = tk.StringVar(value="customer@maslim360.com")
         ee = tk.Entry(ef, textvariable=self.email_var, font=FONT_BODY,
                       bg=C["surface2"], fg=C["text"], insertbackground=C["text"],
-                      relief=tk.FLAT, width=30)
+                      relief=tk.FLAT, bd=6, width=30)
         ee.pack(padx=12, pady=(0, 10), ipady=5)
 
         self.status_var = tk.StringVar()
@@ -851,7 +851,7 @@ class ProductFormDialog(tk.Toplevel):
             self._vars[key] = v
             tk.Entry(row, textvariable=v, font=FONT_BODY,
                      bg=C["surface2"], fg=C["text"], insertbackground=C["text"],
-                     relief=tk.FLAT, width=26).pack(side=tk.LEFT, padx=6, ipady=5)
+                     relief=tk.FLAT, bd=6, width=26).pack(side=tk.LEFT, padx=6, ipady=5)
 
         # Scan barcode button inside form
         bf = tk.Frame(form, bg=C["surface"])
@@ -952,9 +952,9 @@ class POSApp:
         bg.pack(fill=tk.BOTH, expand=True)
 
         # Decorative circles
-        bg.create_oval(-100, -100, 400, 400, fill="#0F1928", outline="")
-        bg.create_oval(900, 500, 1500, 1100, fill="#0A1220", outline="")
-        bg.create_oval(1100, -80, 1500, 300, fill="#10192A", outline="")
+        bg.create_oval(-100, -100, 400, 400, fill="#FEF08A", outline="")
+        bg.create_oval(900, 500, 1500, 1100, fill="#E5E7EB", outline="")
+        bg.create_oval(1100, -80, 1500, 300, fill="#FDE047", outline="")
 
         # Center card
         card = tk.Frame(bg, bg=C["surface"], padx=50, pady=50)
@@ -982,7 +982,7 @@ class POSApp:
         self.login_pass.bind("<Return>", lambda _: self._do_login())
 
         styled_btn(card, "  Sign In  →", self._do_login,
-                   bg=C["accent"], fg=C["bg"],
+                   bg=C["accent"], fg=C["white"],
                    font=("Segoe UI", 12, "bold"),
                    padx=30, pady=10).pack(pady=10, fill=tk.X)
 
@@ -1140,7 +1140,7 @@ class POSApp:
         self.sale_search_var = tk.StringVar()
         se = tk.Entry(search_row, textvariable=self.sale_search_var,
                       font=FONT_BODY, bg=C["surface2"], fg=C["text"],
-                      insertbackground=C["text"], relief=tk.FLAT, width=28)
+                      insertbackground=C["text"], relief=tk.FLAT, bd=6, width=28)
         se.pack(side=tk.LEFT, ipady=6, padx=(0, 4))
         se.bind("<Return>", lambda _: self._sale_add_by_search())
         styled_btn(search_row, "➕ Add", self._sale_add_by_search,
@@ -1153,7 +1153,7 @@ class POSApp:
         self.sale_bc_var = tk.StringVar()
         be = tk.Entry(br, textvariable=self.sale_bc_var,
                       font=FONT_MONO, bg=C["surface2"], fg=C["text"],
-                      insertbackground=C["text"], relief=tk.FLAT, width=18)
+                      insertbackground=C["text"], relief=tk.FLAT, bd=6, width=18)
         be.pack(side=tk.LEFT, padx=4, ipady=5)
         be.bind("<Return>", lambda _: self._sale_add_by_barcode())
         styled_btn(br, "📷 Scan", lambda: BarcodeScannerWindow(self.root, self._sale_barcode_scanned),
@@ -1175,7 +1175,7 @@ class POSApp:
         self.sale_qty_var = tk.StringVar(value="1")
         tk.Spinbox(qf, from_=1, to=999, textvariable=self.sale_qty_var,
                    width=5, font=FONT_BODY, bg=C["surface2"], fg=C["text"],
-                   buttonbackground=C["surface"], relief=tk.FLAT).pack(side=tk.LEFT, padx=6)
+                   buttonbackground=C["surface"], relief=tk.FLAT, bd=6).pack(side=tk.LEFT, padx=6)
 
         # Customer card
         cc = card_frame(left)
@@ -1197,7 +1197,7 @@ class POSApp:
         self.discount_var = tk.StringVar(value="0")
         tk.Entry(dr, textvariable=self.discount_var, font=FONT_BODY,
                  bg=C["surface2"], fg=C["text"], insertbackground=C["text"],
-                 relief=tk.FLAT, width=12).pack(side=tk.LEFT, ipady=5)
+                 relief=tk.FLAT, bd=6, width=12).pack(side=tk.LEFT, ipady=5)
         tk.Label(dr, text="GH₵", font=FONT_SMALL, bg=C["surface"], fg=C["text2"]).pack(side=tk.LEFT, padx=4)
 
         # Payment card
@@ -1423,7 +1423,7 @@ class POSApp:
         self.prod_search_var = tk.StringVar()
         se = tk.Entry(sf, textvariable=self.prod_search_var,
                       font=FONT_BODY, bg=C["surface2"], fg=C["text"],
-                      insertbackground=C["text"], relief=tk.FLAT, width=40)
+                      insertbackground=C["text"], relief=tk.FLAT, bd=6, width=40)
         se.pack(side=tk.LEFT, ipady=6, padx=(0, 6))
         se.bind("<Return>", lambda _: self._filter_products())
         styled_btn(sf, "🔍 Search", self._filter_products,
@@ -1576,7 +1576,7 @@ class POSApp:
             vars_[key] = v
             tk.Entry(row, textvariable=v, font=FONT_BODY, width=28,
                      bg=C["surface2"], fg=C["text"], insertbackground=C["text"],
-                     relief=tk.FLAT).pack(side=tk.LEFT, padx=6, ipady=5)
+                     relief=tk.FLAT, bd=6).pack(side=tk.LEFT, padx=6, ipady=5)
         def _save():
             if data:
                 self.controller.update_customer(data['id'], vars_['name'].get(),
@@ -1642,12 +1642,12 @@ class POSApp:
         dr.pack(fill=tk.X, padx=12, pady=10)
         tk.Label(dr, text="From:", font=FONT_SMALL, bg=C["surface"], fg=C["text2"]).pack(side=tk.LEFT)
         self.rpt_from = tk.Entry(dr, font=FONT_BODY, bg=C["surface2"], fg=C["text"],
-                                  insertbackground=C["text"], relief=tk.FLAT, width=14)
+                                  insertbackground=C["text"], relief=tk.FLAT, bd=6, width=14)
         self.rpt_from.insert(0, datetime.now().strftime("%Y-%m-01"))
         self.rpt_from.pack(side=tk.LEFT, padx=6, ipady=5)
         tk.Label(dr, text="To:", font=FONT_SMALL, bg=C["surface"], fg=C["text2"]).pack(side=tk.LEFT, padx=(12,0))
         self.rpt_to = tk.Entry(dr, font=FONT_BODY, bg=C["surface2"], fg=C["text"],
-                                insertbackground=C["text"], relief=tk.FLAT, width=14)
+                                insertbackground=C["text"], relief=tk.FLAT, bd=6, width=14)
         self.rpt_to.insert(0, datetime.now().strftime("%Y-%m-%d"))
         self.rpt_to.pack(side=tk.LEFT, padx=6, ipady=5)
         styled_btn(dr, "🔍 Filter", self._load_sales_report,
@@ -1764,7 +1764,7 @@ class POSApp:
             show = "●" if key == "password" else ""
             tk.Entry(row, textvariable=v, show=show, font=FONT_BODY, width=26,
                      bg=C["surface2"], fg=C["text"], insertbackground=C["text"],
-                     relief=tk.FLAT).pack(side=tk.LEFT, padx=6, ipady=5)
+                     relief=tk.FLAT, bd=6).pack(side=tk.LEFT, padx=6, ipady=5)
 
         def _save():
             uname = vars_['username'].get().strip()
